@@ -1,3 +1,6 @@
+"""Arquivo que guarda a função que retorna o mapa da cidade 
+com suas ruas, quadras e semáforos"""
+
 def create_map(): 
     mapa = []
     for i in range(0, 28):
@@ -9,11 +12,11 @@ def create_map():
     # Ruas horizontais
     for i in range(0, 28, 3):
         for j in range(0, 37):
-            mapa[i][j] = {"type": "rua"}
+            mapa[i][j] = {"type": "rua", "car": None}
     # Ruas verticais
     for j in range(0, 37, 4):
         for i in range(0, 28):
-            mapa[i][j] = {"type": "rua"}
+            mapa[i][j] = {"type": "rua", "car": None}
     # Quadras
     for i in range(0, 28):
         for j in range(0, 37):
