@@ -4,10 +4,10 @@ biblioteca pygame para tal."""
 import pygame
 from pygame.locals import Rect, QUIT
 from constructor import build_city
+from street_directions import get_street_direction
 from sys import exit
 
 def draw_map(map):
-    cont = 0
     x = 0
     y = 0
     rect_size = 25
@@ -23,11 +23,10 @@ def draw_map(map):
             if map[i][j]["type"] != "quadra":
                 if map[i][j]["car"]:
                     color = (240, 0, 0)
-                    cont += 1
+            
             pygame.draw.rect(screen, color, retangulo)
         y += rect_size
         x = 0
-    print(cont)
 
 # Inciando o pygame
 pygame.init()

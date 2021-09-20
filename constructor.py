@@ -1,16 +1,8 @@
 """O conteúdo deste arquivo destina-se a preparar a cidade instanciando
-os carros que nela residem, bem como as direções das ruas"""
+os carros que nela residem."""
 
 import classes
 import mapa
-
-"""
-Direções: 
-1 - cima
-2 - direita
-3 - baixo
-4 - esquerda
-"""
 
 def build_city():
 
@@ -39,7 +31,7 @@ def build_city():
         map[x][y]["car"] = newCar
         d += 1
         d = d % len(all_directions)
-    
+
     return map
 
 def calculate_inicial_pos(id, map):
