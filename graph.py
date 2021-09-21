@@ -1,13 +1,15 @@
 """Este arquivo realiza a parte gráfica do programa, utilizando a
 biblioteca pygame para tal."""
 
+from time import sleep
+from main import mapaFinal
 import pygame
 from pygame.locals import Rect, QUIT
 from constructor import build_city
 from street_directions import get_street_direction
 from sys import exit
 
-def draw_map(map):
+def draw_city(map):
     x = 0
     y = 0
     rect_size = 25
@@ -34,9 +36,18 @@ screen = pygame.display.set_mode((975,725),0,32)
 pygame.display.set_caption("Transito incrível da titia roberta")
 
 # Desenhando o mapa na tela
+screen.fill((142,215,23))
 map = build_city()
-draw_map(map)
+draw_city(map)
 pygame.display.flip()
+print("Apagando a tela")
+screen.fill((0,0,0))
+sleep(1)
+map = mapaFinal()
+print("desenhando o estado final")
+draw_city(map)
+pygame.display.update()
+
 
 # Loop do Pygame
 while True:
