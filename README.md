@@ -1,4 +1,4 @@
-# Controlador de tráfico em uma cidade
+# Controlador de tráfego em uma cidade
 
 Para executar o programa, primeiro é necessário instalar a biblioteca pygame do python, que pode ser feito com o seguinte comando:
 

@@ -18,7 +18,7 @@ class Semaforo:
             self.colorH = 'r'
             self.colorV = 'g'
 
-        if self.time == 10: self.time = 0
+        if self.time == 12: self.time = 0
     
     def fluxo(self, map, x, y):
         counter = 0
@@ -44,11 +44,12 @@ class Car:
     def get_street_sem(self, map):
         x = self.pos[0]
         y = self.pos[1]
-        while map[x][y]["type"] != "sem":
-            x, y = self.walk_street(map, x, y)
-            if x > 27 or y > 36 or x < 0 or y < 0:
-                return None
-        return map[x][y]["sem"]
+        x, y = self.walk_street(map, x, y)
+        if x > 27 or y > 36 or x < 0 or y < 0:
+            return None
+        if map[x][y]["type"] == "sem":
+            return map[x][y]["sem"]
+        return None
 
     # Retorna a próxima posição de acordo com a direção da rua
     def walk_street(self, map, x, y, d=0):
@@ -73,6 +74,8 @@ class Car:
         if sem is None:
             # Se não existe semáforo a frente, simplesmente ande
             x, y = self.walk_street(map, x, y)
+            #if self.pos[0] == 0:
+                #print(f"tentando ir de [{self.pos[0]}][{self.pos[1]}] para [{x}][{y}]")
             self.move_car(map, x, y)
             return
         if orientation == 'h':
@@ -95,16 +98,24 @@ class Car:
         
         for d in self.directions:
             if d in possible_dirs:
+                backup_x, backup_y = x, y
                 x, y = self.walk_street(map, x, y, d)
-                self.move_car(map, x, y)
-                return
+                if self.move_car(map, x, y):
+                    return
+                else:
+                    x = backup_x
+                    y = backup_y
+
 
     # Move o carro na matriz
     def move_car(self, map, x, y):
         if x < 0 or x > 27 or y < 0 or y > 36:
-            return
+            return 0
         if map[x][y]["car"] is None:
             map[x][y]["car"] = self
             map[self.pos[0]][self.pos[1]]["car"] = None
             self.pos[0] = x
             self.pos[1] = y
+            print(f"mypos: [{self.pos[0]}][{self.pos[1]}]")
+            return 1
+        return 0
