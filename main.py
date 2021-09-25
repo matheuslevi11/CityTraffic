@@ -1,6 +1,6 @@
 from constructor import build_city
 from time import sleep
-from graph import draw_city, update_city
+from graphics import draw_city, update_city
 
 
 map = build_city()
@@ -29,4 +29,4 @@ for iteration in range(0, 1001):
                     #sem[i][j]
                 map[i][j]["sem"].update()
     update_city(map, view, iteration)
-    sleep(0.5) # 50 milisegundos de delay 00
+    sleep(0.05) # 50 milisegundos de delay 00

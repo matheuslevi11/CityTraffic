@@ -2,21 +2,21 @@ from street_directions import *
 
 class Semaforo:
     def __init__(self):
-        self.colorH = 'g'
-        self.colorV = 'r'
+        self.colorH = 'r'
+        self.colorV = 'g'
         self.greenTime = 5
         self.time = 0
 
     def update(self):
         self.time += 1
         if self.time <= self.greenTime:
-            self.colorH = 'g'
-            self.colorV = 'r'
-        elif self.time < self.greenTime + 2:
-            self.colorH = 'y'
-        else:
-            self.colorH = 'r'
             self.colorV = 'g'
+            self.colorH = 'r'
+        elif self.time < self.greenTime + 2:
+            self.colorV = 'y'
+        else:
+            self.colorV = 'r'
+            self.colorH = 'g'
 
         if self.time == 12: self.time = 0
     
@@ -53,9 +53,10 @@ class Car:
 
     # Retorna a próxima posição de acordo com a direção da rua
     def walk_street(self, map, x, y, d=0):
-        direction = get_street_direction(map, x, y)
         if d != 0:
             direction = d
+        else:
+            direction = get_street_direction(map, x, y)
         dir_map = [ [-1, 0], [0, 1], [1, 0], [0, -1] ]
         x += dir_map[direction-1][0]
         y += dir_map[direction-1][1]
@@ -116,6 +117,5 @@ class Car:
             map[self.pos[0]][self.pos[1]]["car"] = None
             self.pos[0] = x
             self.pos[1] = y
-            print(f"mypos: [{self.pos[0]}][{self.pos[1]}]")
             return 1
         return 0

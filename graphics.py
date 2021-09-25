@@ -1,11 +1,9 @@
 """Este arquivo realiza a parte gráfica do programa, utilizando a
-biblioteca pygame para tal."""
+biblioteca pygame."""
 
-from time import sleep
 import pygame
 from pygame.locals import Rect, QUIT
-from constructor import build_city
-from street_directions import get_street_direction
+from draw import *
 from sys import exit
 from _thread import *
 
@@ -13,7 +11,8 @@ def draw_city(map):
     # Inciando o pygame
     pygame.init()
     screen = pygame.display.set_mode((975,725),0,32)
-    pygame.display.set_caption("Transito da Cidade")
+    pygame.display.set_caption("Transito da Cidade")    
+    inicialize_imgs()
 
     # Desenhando o mapa na tela
     screen.fill((142,215,23))
@@ -27,34 +26,41 @@ def update_city(map, screen, cont):
     x = 0
     y = 0
     rect_size = 25
+
     for i in range(0, 28):
         for j in range(0, 37):
             x += rect_size
             retangulo = Rect(x, y, rect_size, rect_size)
-            color = (220, 220, 220)
+
+            # Desenhar semáforos
             if map[i][j]["type"] == "sem":
-                if map[i][j]["sem"].colorH == 'r':
-                    color = (255, 0, 0)
-                elif map[i][j]["sem"].colorH == 'g':
-                    color = (0, 255, 0)
-                else:
-                    color = (255, 215, 25)
-            if map[i][j]["type"] == "quadra":
-                color = (173, 216, 230)
-            if map[i][j]["type"] != "quadra":
                 if map[i][j]["car"]:
-                    color = (0, 0, 0)
+                    draw_sem(map[i][j]["sem"].colorV, map[i][j]["car"], map, screen, retangulo)
+                else:
+                    draw_sem(map[i][j]["sem"].colorV, None, map, screen, retangulo)
             
-            pygame.draw.rect(screen, color, retangulo)
+            # Desenhar quadras
+            elif map[i][j]["type"] == "quadra":
+                draw_quadra(screen, retangulo)
+
+            # Desenhar ruas e carros
+            elif map[i][j]["type"] != "quadra":
+                if map[i][j]["car"]:
+                    draw_car(i, j, screen, retangulo)
+                else:
+                    draw_street(i, j, screen, retangulo)
+            
         y += rect_size
         x = 0
     
-    opensans = pygame.font.SysFont('arial', 30)
+    # Desenhando o contador de iteração na tela
+    opensans = pygame.font.SysFont('opensanscondensed', 25)
     contador = f'Iteração: = {cont}'
-    texto = opensans.render(contador, True, (255, 0, 0))
+    texto = opensans.render(contador, True, (255, 255, 255))
     screen.blit(texto, (0, 0))
 
     pygame.display.update()
+
 
 # Loop do Pygame
 def loop(temp):
