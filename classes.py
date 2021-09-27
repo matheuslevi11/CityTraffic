@@ -5,6 +5,7 @@ class Semaforo:
         self.colorH = 'r'
         self.colorV = 'g'
         self.greenTime = 5
+        self.redTime = 12
         self.time = 0
 
     def update(self):
@@ -18,21 +19,35 @@ class Semaforo:
             self.colorV = 'r'
             self.colorH = 'g'
 
-        if self.time == 12: self.time = 0
+        if self.time == self.redTime: self.time = 0
     
     def fluxo(self, map, x, y):
+        flow = []
         counter = 0
         d = get_street_direction(map, x, y)
         # Checando horizontalmente
         dir_map = [ [-1, 0], [0, 1], [1, 0], [0, -1] ]
-        while True:
+        for i in range(0, 7):
             x += dir_map[d[0]-1][0]
             y += dir_map[d[0]-1][1]
             if x < 0 or x > 27 or y < 0 or y > 36:
                 break
+            if map[x][y]['type'] == 'quadra': break
             if map[x][y]["car"] is not None:
                 counter += 1
-        return counter
+        flow.append(counter)
+        # Checando verticalmente
+        counter = 0
+        for i in range(0, 7):
+            x += dir_map[d[1]-1][0]
+            y += dir_map[d[1]-1][1]
+            if x < 0 or x > 27 or y < 0 or y > 36:
+                break
+            if map[x][y]['type'] == 'quadra': break
+            if map[x][y]["car"] is not None:
+                counter += 1
+        flow.append(counter)
+        return flow
     
 class Car:
     def __init__(self, id, directs, position):

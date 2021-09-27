@@ -24,9 +24,9 @@ for iteration in range(0, 1001):
     for i in range(0, 28):
         for j in range(0, 37):
             if map[i][j]["type"] == "sem":
-                #fluxo = map[i][j]["sem"].fluxo()
-                #if fluxo > 3:
-                    #sem[i][j]
+                # Manipulando o fluxo do trânsito
+
+
                 map[i][j]["sem"].update()
     update_city(map, view, iteration)
-    sleep(0.05) # 50 milisegundos de delay 00
+    sleep(0.2)
